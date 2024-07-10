@@ -11,7 +11,7 @@ const ProductCard = ({
 }) => {
   return (
     <div className="product-card">
-      {rating > 3.9 ? <div className="badge">Hot</div> : null}
+      {rating.rate > 3.9 ? <div className="badge">Hot</div> : null}
       <div className="product-tumb">
         <img src={img} alt="product-img" />
       </div>

@@ -37,10 +37,11 @@ h2 {
 
 .category-select {
   display: flex;
-  position: sticky;
   background-color: lightgray;
   top: 0;
+  position: sticky;
   z-index: 10;
+  gap: 15px;
   padding: 20px;
 }
 
