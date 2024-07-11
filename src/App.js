@@ -1,8 +1,9 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import "./App.css";
 import Navbar from "./components/navbar";
 import { appRoute } from "./routes";
 import { Suspense, useRef, useState } from "react";
+import { CSSTransition, SwitchTransition } from "react-transition-group";
 function App() {
   const categoryRef = useRef(null);
   const cartInitialState = {
@@ -13,7 +14,7 @@ function App() {
   const [cartItems, setCartItems] = useState(cartInitialState);
   const [user, setUser] = useState({});
   const [isLogged, setIsLogged] = useState(false);
-
+  const location = useLocation();
   return (
     <div>
       <Navbar
@@ -21,45 +22,54 @@ function App() {
         cartItemsCount={cartItems.numberOfItems}
         isLogged={isLogged}
       />
-      <Suspense
-        fallback={() => (
-          <h1 style={{ color: "black", fontSize: "80px" }}>Loading...</h1>
-        )}
-      >
-        <Routes>
-          {appRoute.map((route) => {
-            if (route.requireAuth && !isLogged) {
-              return (
-                <Route
-                  key={route.path}
-                  exact
-                  path={route.path}
-                  element={<Navigate replace to={"/login"} />}
-                />
-              );
-            } else {
-              return (
-                <Route
-                  path={route.path}
-                  exact
-                  key={route.path}
-                  element={
-                    <route.component
-                      _cartItems={cartItems}
-                      categoryRef={categoryRef}
-                      setUser={setUser}
-                      setIsLogged={setIsLogged}
-                      cartItems={cartItems}
-                      user={user}
-                      setCartItems={setCartItems}
+      <SwitchTransition component={null}>
+        <CSSTransition
+          key={location.pathname}
+          classNames={"fade"}
+          timeout={500}
+          unmountOnExit
+        >
+          <Suspense
+            fallback={() => (
+              <h1 style={{ color: "black", fontSize: "80px" }}>Loading...</h1>
+            )}
+          >
+            <Routes>
+              {appRoute.map((route) => {
+                if (route.requireAuth && !isLogged) {
+                  return (
+                    <Route
+                      key={route.path}
+                      exact
+                      path={route.path}
+                      element={<Navigate replace to={"/login"} />}
                     />
-                  }
-                />
-              );
-            }
-          })}
-        </Routes>
-      </Suspense>
+                  );
+                } else {
+                  return (
+                    <Route
+                      path={route.path}
+                      exact
+                      key={route.path}
+                      element={
+                        <route.component
+                          _cartItems={cartItems}
+                          categoryRef={categoryRef}
+                          setUser={setUser}
+                          setIsLogged={setIsLogged}
+                          cartItems={cartItems}
+                          user={user}
+                          setCartItems={setCartItems}
+                        />
+                      }
+                    />
+                  );
+                }
+              })}
+            </Routes>
+          </Suspense>
+        </CSSTransition>
+      </SwitchTransition>
     </div>
   );
 }

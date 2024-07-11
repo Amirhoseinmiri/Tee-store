@@ -5,14 +5,17 @@ const Login = ({ setUser, setIsLogged }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const [loading, setLoading] = useState(false);
   const handleLogin = (e) => {
     e.preventDefault();
+    setLoading(true);
     const getUser = async () => {
       const res = await authenticateUser(email, password);
       // eslint-disable-next-line no-unused-expressions
       res ? (setUser(res), setIsLogged(true)) : setErrorMsg("have error here");
 
       console.log("RESPONS  E", res);
+      setLoading(false);
     };
     getUser();
   };
@@ -43,7 +46,10 @@ const Login = ({ setUser, setIsLogged }) => {
         className="login-inp"
         placeholder="Password"
       />
-      <button type="submit">Submit</button>
+      <button type="submit" disabled={loading}>
+        {" "}
+        {loading ? "Loading..." : "Submit"}
+      </button>
     </form>
   );
 };

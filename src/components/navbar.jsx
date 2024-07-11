@@ -23,7 +23,7 @@ const Navbar = ({ cartItemsCount, isLogged, categoryRef }) => {
           <span onClick={handleNavigateScrool} className="about-span">
             Shop
           </span>
-          <Link href="##">About</Link>
+          <Link to="/about">About</Link>
         </ul>
       </div>
 
