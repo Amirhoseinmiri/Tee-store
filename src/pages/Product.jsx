@@ -3,7 +3,7 @@ import ProductCard from "../components/productCard";
 import { useParams } from "react-router-dom";
 import { ALLOWED_CATEGORIES, fetchCategory, fetchProducts } from "../utils";
 
-const Product = () => {
+const Product = ({ setCartItems }) => {
   const [productsData, setProductsData] = useState([]);
   const { category } = useParams();
   const [allProduct, setAllProduct] = useState([]);
@@ -86,7 +86,7 @@ const Product = () => {
                   productName={data.title}
                   categoryName={data.category}
                   description={data.description}
-                  setCartItems={null}
+                  setCartItems={setCartItems}
                 />
               )
           )}
