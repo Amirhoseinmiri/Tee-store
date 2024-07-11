@@ -5,6 +5,7 @@ const Cart = lazy(() => import("./pages/Cart"));
 const Checkout = lazy(() => import("./pages/Checkout"));
 const Login = lazy(() => import("./pages/Login"));
 const About = lazy(() => import("./pages/About"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 export const appRoute = [
   {
@@ -40,6 +41,11 @@ export const appRoute = [
   {
     path: "/login",
     component: Login,
+    requireAuth: false,
+  },
+  {
+    path: "/*",
+    component: NotFound,
     requireAuth: false,
   },
 ];
